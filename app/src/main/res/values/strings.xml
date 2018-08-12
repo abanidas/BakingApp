@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">BakingApp</string>
+    <string name="title_baking_app">Baking App</string>
+    <string name="text_servings_label">Servings:</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="logo_transition_name">logo</string>
+    <string name="label_ingeredients">Ingeredients</string>
+    <string name="label_steps">Recipe Steps</string>
+    <string name="widget_content_title">Last Recipe Ingredient</string>
+</resources>

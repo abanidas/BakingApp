@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="@dimen/margin_default"
+    android:paddingTop="@dimen/padding_large"
+    android:paddingBottom="@dimen/padding_large"
+    android:elevation="@dimen/elevation_default"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:id="@+id/ll_recipe_step">
+
+    <ImageView
+        android:id="@+id/image_step"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/image_recipe_step_height"
+        android:src="@drawable/ic_baking_app"
+        android:layout_margin="@dimen/margin_default"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:id="@+id/tv_step"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Steps"
+        android:layout_marginLeft="@dimen/margin_default" />
+
+</LinearLayout>
