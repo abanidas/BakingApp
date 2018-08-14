@@ -1,7 +1,13 @@
 package com.abani.exercise.android.bakingapp.utils;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.abani.exercise.android.bakingapp.R;
+import com.abani.exercise.android.bakingapp.constants.Constants;
+import com.abani.exercise.android.bakingapp.models.BakingItemResponse;
 import com.abani.exercise.android.bakingapp.models.Ingredient;
+import com.google.gson.Gson;
 
 public class CommonUtil {
 
@@ -24,5 +30,12 @@ public class CommonUtil {
                 +". "+ingredient.getQuantity()
                 + " " + ingredient.getMeasure()
                 + " " + ingredient.getIngredient();
+    }
+
+    public static BakingItemResponse retrieveWidgetItemFromSharedPreference(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constants.BAKING_APP_PREFERENCE, Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(Constants.LAST_RECIPE_KEY, "");
+        return gson.fromJson(json, BakingItemResponse.class);
     }
 }

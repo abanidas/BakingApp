@@ -18,15 +18,12 @@
         android:padding="@dimen/padding_medium"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/appwidget_ingredients"
+    <ListView
+        android:id="@+id/list_view_widget"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="@string/label_ingeredients"
-        android:textStyle="italic"
         android:layout_margin="@dimen/margin_medium"
-        android:padding="@dimen/padding_medium"
-        android:textColor="@android:color/black"
-        android:background="@android:color/white"/>
+        android:divider="@null"
+        android:dividerHeight="0dp"/>
 
 </LinearLayout>

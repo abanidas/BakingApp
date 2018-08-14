@@ -67,51 +67,64 @@ public class RecipeGuideFragment extends Fragment {
     }
 
     private void initViews() {
-        if (currentStep != null) {
-            txtStepLabel.setText(currentStep.getShortDescription());
-            txtStepDescription.setText(currentStep.getDescription());
+
+        int currentOrientation = getResources().getConfiguration().orientation;
+        if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+            hideSystemUi();
+        } else {
+            //initViews();
+
+            if (currentStep != null) {
+                txtStepLabel.setText(currentStep.getShortDescription());
+                txtStepDescription.setText(currentStep.getDescription());
+            }
+            setupListeners();
         }
+
     }
 
     private void setupListeners() {
 
-        fabNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //currentStepPosition += 1;
-                if (currentStepPosition < (allSteps.size() - 1)){
-                    setCurrentStep(currentStepPosition + 1);
-                    initViews();
-                    releasePlayer();
-                    initializePlayer();
-                }
-            }
-        });
+        if (!fabNext.hasOnClickListeners()) {
 
-        fabPrev.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (currentStepPosition > 0){
-                    setCurrentStep(currentStepPosition - 1);
-                    initViews();
-                    releasePlayer();
-                    initializePlayer();
+            fabNext.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //currentStepPosition += 1;
+                    if (currentStepPosition < (allSteps.size() - 1)) {
+                        setCurrentStep(currentStepPosition + 1);
+                        initViews();
+                        releasePlayer();
+                        setPlaybackPosition(0);
+                        initializePlayer();
+                    }
                 }
-            }
-        });
+            });
+        }
+
+        if (!fabPrev.hasOnClickListeners()) {
+
+            fabPrev.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (currentStepPosition > 0) {
+                        setCurrentStep(currentStepPosition - 1);
+                        initViews();
+                        releasePlayer();
+                        setPlaybackPosition(0);
+                        initializePlayer();
+                    }
+                }
+            });
+        }
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        int currentOrientation = getResources().getConfiguration().orientation;
-        if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-            hideSystemUi();
-        } else {
-            initViews();
-            setupListeners();
-        }
+
         if (Util.SDK_INT > 23) {
+            initViews();
             initializePlayer();
         }
     }
@@ -121,6 +134,7 @@ public class RecipeGuideFragment extends Fragment {
         super.onResume();
         //hideSystemUi();
         if ((Util.SDK_INT <= 23 || mPlayer == null)) {
+            initViews();
             initializePlayer();
         }
     }

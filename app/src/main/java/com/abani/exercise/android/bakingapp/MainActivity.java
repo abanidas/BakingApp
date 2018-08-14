@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
 
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, IngredientAppWidgetProvider.class));
-
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.list_view_widget);
         IngredientAppWidgetProvider.updateIngredientWidgets(this, appWidgetManager,appWidgetIds);
     }
 
