@@ -45,6 +45,11 @@ public class RecipeGuideFragment extends Fragment {
     @BindView(R.id.fab_prev)
     FloatingActionButton fabPrev;
 
+    private static final String SAVED_INSTANCE_POSITION = "position";
+    private static final String SAVED_PLAYBACK_POSITION = "playback_position";
+    private static final String SAVED_PLAYBACK_WINDOW = "current_window";
+    private static final String SAVED_PLAY_WHEN_READY = "play_when_ready";
+
     private SimpleExoPlayer mPlayer;
 
     private List<Step> allSteps;
@@ -60,6 +65,14 @@ public class RecipeGuideFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        if (savedInstanceState != null){
+            currentStepPosition = savedInstanceState.getInt(SAVED_INSTANCE_POSITION, 0);
+            playbackPosition = savedInstanceState.getLong(SAVED_PLAYBACK_POSITION, 0);
+            currentWindow = savedInstanceState.getInt(SAVED_PLAYBACK_WINDOW, 0);
+            playWhenReady = savedInstanceState.getBoolean(SAVED_PLAY_WHEN_READY, false);
+
+        }
         View view = inflater.inflate(R.layout.fragment_recipe_guide, container, false);
         ButterKnife.bind(this, view);
 
@@ -72,7 +85,6 @@ public class RecipeGuideFragment extends Fragment {
         if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
             hideSystemUi();
         } else {
-            //initViews();
 
             if (currentStep != null) {
                 txtStepLabel.setText(currentStep.getShortDescription());
@@ -90,7 +102,7 @@ public class RecipeGuideFragment extends Fragment {
             fabNext.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //currentStepPosition += 1;
+
                     if (currentStepPosition < (allSteps.size() - 1)) {
                         setCurrentStep(currentStepPosition + 1);
                         initViews();
@@ -120,6 +132,12 @@ public class RecipeGuideFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
 
@@ -132,7 +150,7 @@ public class RecipeGuideFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        //hideSystemUi();
+
         if ((Util.SDK_INT <= 23 || mPlayer == null)) {
             initViews();
             initializePlayer();
@@ -142,15 +160,13 @@ public class RecipeGuideFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (Util.SDK_INT <= 23){
-            releasePlayer();
-        }
+        releasePlayer();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        if (Util.SDK_INT > 23) {
+        if (mPlayer != null) {
             releasePlayer();
         }
     }
@@ -208,31 +224,17 @@ public class RecipeGuideFragment extends Fragment {
         this.allSteps = allSteps;
     }
 
-    public int getCurrentStepPosition() {
-        return currentStepPosition;
-    }
-
-    public long getPlaybackPosition() {
-        return playbackPosition;
-    }
-
     public void setPlaybackPosition(long playbackPosition) {
         this.playbackPosition = playbackPosition;
     }
 
-    public int getCurrentWindow() {
-        return currentWindow;
-    }
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(SAVED_INSTANCE_POSITION, currentStepPosition);
+        outState.putLong(SAVED_PLAYBACK_POSITION, playbackPosition);
+        outState.putInt(SAVED_PLAYBACK_WINDOW, currentWindow);
+        outState.putBoolean(SAVED_PLAY_WHEN_READY, playWhenReady);
 
-    public void setCurrentWindow(int currentWindow) {
-        this.currentWindow = currentWindow;
-    }
-
-    public boolean isPlayWhenReady() {
-        return playWhenReady;
-    }
-
-    public void setPlayWhenReady(boolean playWhenReady) {
-        this.playWhenReady = playWhenReady;
     }
 }

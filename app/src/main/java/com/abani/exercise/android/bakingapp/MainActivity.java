@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
 
             @Override
             public void onFailure(Call<List<BakingItemResponse>> call, Throwable t) {
-                Log.e("hello", t.getLocalizedMessage());
+
             }
         });
     }
@@ -110,10 +110,5 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.list_view_widget);
         IngredientAppWidgetProvider.updateIngredientWidgets(this, appWidgetManager,appWidgetIds);
     }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
-    }
+    
 }

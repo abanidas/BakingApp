@@ -44,24 +44,26 @@ public class RecipeActivity extends AppCompatActivity implements RecipeFragment.
             steps = response.getSteps();
         }
 
-        RecipeFragment recipeFragment = new RecipeFragment();
-        recipeFragment.setResponseId(response.getId());
-        recipeFragment.setIngredients(ingredients);
-        recipeFragment.setSteps(steps);
-        recipeFragment.setItemClickListener(this);
-        FragmentManager manager = getSupportFragmentManager();
-        manager.beginTransaction()
-                .add(R.id.recipe_container, recipeFragment)
-                .commit();
-
-        if (getResources().getBoolean(R.bool.isTablet)){
-            RecipeGuideFragment guideFragment = new RecipeGuideFragment();
-            guideFragment.setAllSteps(steps);
-            guideFragment.setCurrentStep(0);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .add(R.id.recipe_guide_container, guideFragment)
+        if (savedInstanceState == null) {
+            RecipeFragment recipeFragment = new RecipeFragment();
+            recipeFragment.setResponseId(response.getId());
+            recipeFragment.setIngredients(ingredients);
+            recipeFragment.setSteps(steps);
+            recipeFragment.setItemClickListener(this);
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction()
+                    .add(R.id.recipe_container, recipeFragment)
                     .commit();
+
+            if (getResources().getBoolean(R.bool.isTablet)) {
+                RecipeGuideFragment guideFragment = new RecipeGuideFragment();
+                guideFragment.setAllSteps(steps);
+                guideFragment.setCurrentStep(0);
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .add(R.id.recipe_guide_container, guideFragment)
+                        .commit();
+            }
         }
 
     }
